@@ -12,6 +12,7 @@ deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
 api_version = os.getenv("AZURE_OPENAI_API_VERSION")
 
 # Configure OpenAI client
+
 openai.api_type = "azure"
 openai.api_key = api_key
 openai.api_base = endpoint
