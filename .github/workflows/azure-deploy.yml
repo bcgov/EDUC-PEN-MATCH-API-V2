@@ -38,7 +38,7 @@ jobs:
 
     - name: Deploy using Azure CLI
       run: |
-        az webapp deploy --resource-group <your-resource-group> \
-                         --name <your-app-name> \
+        az webapp deploy --resource-group pen-match-v2 \
+                         --name pen-match-v2-web-app \
                          --src-path app.zip \
                          --type zip
