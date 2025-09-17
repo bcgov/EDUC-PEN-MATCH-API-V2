@@ -1,16 +1,29 @@
 name: Deploy to Azure Web App
-on:
-  push:
-    branches:
-      - main  
+on: 
   workflow_dispatch:
   
-##    
+permissions:
+  id-token: write
+  contents: write  
 
 jobs:
+  test-login:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Azure Login via OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Show Azure Account Info
+        run: az account show 
+        
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    environment: dev
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
