@@ -33,12 +33,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Zip Python App
-      run: zip -r app.zip .
-
     - name: Deploy using Azure CLI
       run: |
-        az webapp deploy --resource-group pen-match-v2 \
-                         --name pen-match-v2-web-app \
-                         --src-path app.zip \
-                         --type zip
+        az webapp up --name pen-match-v2-web-app \
+                     --resource-group pen-match-v2-rg \
+                     --runtime "PYTHON|3.11" \
+                     --location "canadacentral"
