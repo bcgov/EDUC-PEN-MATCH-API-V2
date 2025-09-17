@@ -36,6 +36,6 @@ jobs:
     - name: Deploy using Azure CLI
       run: |
         az webapp up --name pen-match-v2-web-app \
-                     --resource-group pen-match-v2-rg \
+                     --resource-group pen-match-v2 \
                      --runtime "PYTHON|3.11" \
                      --location "canadacentral"
