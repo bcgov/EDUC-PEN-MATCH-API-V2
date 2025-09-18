@@ -1,14 +1,16 @@
-name: Deploy Python App to Azure Web App via OIDC
+name: Deploy to Azure Web App2
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   id-token: write
   contents: read
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -23,7 +25,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
@@ -33,10 +35,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Deploy using Azure CLI
-      run: |
-        az webapp deploy --name pen-match-v2-web-app \
-                         --resource-group pen-match-v2 \
-                         --src-path app.zip \
-                         --type zip
+    - name: Archive project files
+      run: zip -r app.zip .
 
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: pen-match-v2-web-app
+        slot-name: production
+        package: app.zip
